@@ -33,7 +33,7 @@ function addNotification(name, selector, observer) {
         };
 
         addNotices(newNotice);
-
+        console.log(newNotice)  //执行了
     } else {
         console.log("addNotification error: no selector or name");
     }
@@ -81,6 +81,7 @@ function addNotices(newNotice) {
     // }
 
     __notices.push(newNotice);
+    // __notices是一个空数组，这里将newNotice传给数组。
 }
 
 /**

@@ -76,10 +76,12 @@ Page({
           toplist: (options.from == 'stoplist' ? true : false),
           cover: id2Url.id2Url('' + (res.data.playlist.coverImgId_str || res.data.playlist.coverImgId))
         });
-
         wx.setNavigationBarTitle({
           title: res.data.playlist.name
         })
+
+        console.log('list:'+that.data.list)
+        
       }, fail: function (res) {
         wx.navigateBack({
           delta: 1

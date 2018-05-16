@@ -55,7 +55,9 @@ Page({
         })
     },
     onLoad: function (options) {
+      console.log('onload')
         if (options.share == 1) {
+          console.log('onload in')   //这里没有执行
             var url = '../' + options.st + '/index?id=' + options.id
             console.log(url, options.st, options.id)
             wx.navigateTo({
@@ -75,10 +77,11 @@ Page({
         nt.addNotification("music_next", this.music_next, this);
         nt.addNotification("music_toggle", this.music_toggle, this)
         this.setData({
-            music: app.globalData.curplay,
-            playing: app.globalData.playing,
-            playtype: app.globalData.playtype,
+            music: app.globalData.curplay,  //object
+            playing: app.globalData.playing, //1
+            playtype: app.globalData.playtype, //false
         })
+        console.log('music:' + this.data.music + ' ' + this.data.playtype + ' ' + this.data.playing)
         if (!wx.getStorageSync('user')) {
             wx.redirectTo({
                 url: '../login/index'
@@ -86,11 +89,13 @@ Page({
             return;
         }
         !this.data.rec.loading && this.init();
+        // 这里执行了init,init请求数据
     },
     switchtab: function (e) {
         var that = this;
         var t = e.currentTarget.dataset.t;
-        this.setData({ tabidx: t });
+        // 获取渲染页面中的导航栏每个对应的t
+        this.setData({ tabidx: t });   //将值传递给data中的tabidx
         if (t == 1 && !this.data.playlist.loading) {
             this.gplaylist()
         }
@@ -171,12 +176,14 @@ Page({
         var that = this;
         wx.request({
             url: bsurl + 'top/playlist',
+            // 获取数据
             data: {
                 limit: that.data.playlist.limit,
                 offset: that.data.playlist.offset,
                 type: that.data.catelist.checked.name
             },
             complete: function (res) {
+              console.log('gedan')
                 that.data.playlist.loading = true;
                 if (!isadd) {
                     that.data.playlist.list = res.data
@@ -189,7 +196,9 @@ Page({
                     playlist: that.data.playlist
                 })
             }
+            
         })
+        console.log('歌单')
     },
     onReachBottom: function () {
         if (this.data.tabidx == 1) {
@@ -227,15 +236,18 @@ Page({
         //banner，
         wx.request({
             url: bsurl + 'banner',
+            // 这里的bsurl是一个js 一个端口号 http://localhost:3000/v1/
             data: { cookie: app.globalData.cookie },
             success: function (res) {
                 that.setData({
                     banner: res.data.banners
+                    // 将路径中的数据都保存在banner中。
                 })
             }
         });
         wx.request({
             url: bsurl + 'playlist/catlist',
+            // 这个路径获取的是歌单列表的数据
             complete: function (res) {
                 that.setData({
                     catelist: {
@@ -247,7 +259,9 @@ Page({
             }
         })
         //个性推荐内容,歌单，新歌，mv，电台
+        // async是一个异步，不知道这里是自己写的还是轮子。
         async.map(['personalized', 'personalized/newsong', 'personalized/mv', 'personalized/djprogram'], function (item, callback) {
+          // 这里的personalized都是数据，就是推荐歌单 最新音乐 推荐mv 主播电台
             wx.request({
                 url: bsurl + item,
                 data: { cookie: app.globalData.cookie },
@@ -255,13 +269,16 @@ Page({
                     callback(null, res.data.result)
                 }
             })
+            console.log('async')  //输出了4次，这里有四组数据。
         }, function (err, results) {
             console.log(err)
+            // rec是一个对象。有loading值，所以这里是改写，然后增加一个re。
             rec.loading = true;
             rec.re = results
             that.setData({
                 rec: rec
             })
+            console.log(rec)
         });
     }
 })

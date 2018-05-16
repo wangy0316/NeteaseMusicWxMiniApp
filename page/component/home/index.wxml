@@ -158,6 +158,7 @@
       </view>
     </block>
     <template wx:if="{{!playlist.loading||playlist.list.more}}" is="loading" />
+    <!--这是一个模板  -->
   </view>
 
   <!-- 主播电台-->
