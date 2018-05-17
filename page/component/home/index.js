@@ -152,6 +152,7 @@ Page({
         var that = this;
         wx.request({
             url: bsurl + 'djradio/hot',
+            // 导航栏主播电台 数据获取
             data: {
                 limit: that.data.djlist.limit,
                 offset: that.data.djlist.offset
@@ -172,11 +173,11 @@ Page({
         })
     },
     gplaylist: function (isadd) {
-        //分类歌单列表
+        //分类歌单列表 
         var that = this;
         wx.request({
             url: bsurl + 'top/playlist',
-            // 获取数据
+            //导航栏歌单 数据获取
             data: {
                 limit: that.data.playlist.limit,
                 offset: that.data.playlist.offset,
@@ -235,6 +236,7 @@ Page({
         var rec = this.data.rec
         //banner，
         wx.request({
+          // 轮播广告图和其他数据获取
             url: bsurl + 'banner',
             // 这里的bsurl是一个js 一个端口号 http://localhost:3000/v1/
             data: { cookie: app.globalData.cookie },
@@ -247,7 +249,7 @@ Page({
         });
         wx.request({
             url: bsurl + 'playlist/catlist',
-            // 这个路径获取的是歌单列表的数据
+            // 这个路径获取的是导航栏歌单的选择分类列表数据
             complete: function (res) {
                 that.setData({
                     catelist: {

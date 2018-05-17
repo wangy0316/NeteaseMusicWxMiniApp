@@ -65,6 +65,7 @@
       <view class='flex-boxlist'>
         <view class="tl_cnt" wx:for-items="{{rec.re[0]}}" wx:key="{{item.id}}">
           <navigator url="../playlist/index?pid={{item.id}}&from=toplist">
+          <!--传递两个值，一个是item.id 一个是toplist  -->
             <view class="cover">
               <image src="{{item.picUrl}}?param=200y200" class="music_cover" />
               <view class="img_playcount">

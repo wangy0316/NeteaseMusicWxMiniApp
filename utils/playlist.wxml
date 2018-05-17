@@ -1,12 +1,17 @@
 <import src="image.wxml" />
 <template name="playlist">
-  <block wx:if="{{privileges}}" wx:for-items="{{list}}" wx:for-index="idx" wx:key="{{item.id}}" wx:for-item="re">
+<!--传三个数据：list  privileges  curplay  -->
+  <block wx:if="{{privileges}}" wx:for="{{list}}" wx:for-index="idx" wx:key="{{item.id}}" wx:for-item="re">
+                                                                                            <!--注意这里将item改为re，而且re是后面取歌曲信息的重要值  -->
     <view class="songs {{re.id===curplay?'cur':''}} {{privileges[idx].st>=0?'':'disabled'}}">
-      <navigator hover-class="{{privileges[idx].st<0?'none':''}}" url="{{privileges[idx].st>=0?'../playing/index?id='+re.id+'&br='+privileges.maxbr:''}}" bindtap="playmusic" data-idx="{{idx}}" data-st="{{privileges[idx].st}}">
+       <navigator hover-class="{{privileges[idx].st<0?'none':''}}" url="{{privileges[idx].st>=0?'../playing/index?id='+re.id+'&br='+privileges.maxbr:''}}" bindtap="playmusic" data-idx="{{idx}}" data-st="{{privileges[idx].st}}">
         <view class="flexlist flex-center">
           <view class="flexleft flexnum ">
+
             <block wx:if="{{re.id===curplay}}">
+            <!--注意这里，re.id和crplay的值是一样的  -->
             <template is="image" data="{{src:'../../../image/aal.png',width:36}}"/>
+            <!--这个iamge是一个喇叭图标，歌曲播放的时候出现  -->
             </block>
             <block wx:else>
               <text class="{{toplist&&idx<3?'topindex':''}}">{{idx+1}}</text>
@@ -26,24 +31,28 @@
                   </block>
             </block>
           </view>
+          <!--上面这一大段不知道做上面的  -->
           <view class="flexlist">
-            <view class="flexmain">
-              <view>{{re.name}}<text wx:if="{{re.alia.length}}">（{{re.alia[0]}}）</text></view>
-              <view class="relistdes">{{re.ar[0].name}}-{{re.al.name}}</view>
-            </view>
-            <view class="flexact" wx-if="{{re.mv!=0}}">
-              <view catchtap="mv" data-mvid="{{re.mv}}" class="fa_list fa_mv">
-                <navigator url="../mv/index?id={{re.mv}}">
-                  <image src="../../../image/l0.png" mode="widthFix" />
-                </navigator>
-              </view>
-            </view>
-          </view>
+             <view class="flexmain"> 
+               <view>{{re.name}}<text wx:if="{{re.alia.length}}">（{{re.alia[0]}}）</text></view> 
+              <!--歌曲名字，歌曲来源  -->
+               <view class="relistdes">{{re.ar[0].name}}-{{re.al.name}}</view> 
+              <!--歌手--歌名  -->
+             </view> 
+             <view class="flexact" wx-if="{{re.mv!=0}}"> 
+               <view catchtap="mv" data-mvid="{{re.mv}}" class="fa_list fa_mv"> 
+                 <navigator url="../mv/index?id={{re.mv}}"> 
+                   <image src="../../../image/l0.png" mode="widthFix" /> 
+                  <!--播放图标  -->
+                 </navigator> 
+               </view> 
+             </view> 
+           </view> 
         </view>
       </navigator>
     </view>
   </block>
-  <block wx:if="{{!privileges}}" wx:for-items="{{list}}" wx:for-index="idx" wx:key="{{re.id}}" wx:for-item="re">
+   <block wx:if="{{!privileges}}" wx:for-items="{{list}}" wx:for-index="idx" wx:key="{{re.id}}" wx:for-item="re">
     <view class="songs {{re.id===curplay?'cur':''}} {{re.privilege.st==-1?'disabled':''}} {{re.id}}">
       <navigator hover-class="{{re.privilege.st==-1?'none':''}}" url="{{re.privilege.st!=-1?'../playing/index?id='+re.id+'&br='+re.privilege.maxbr:''}}" bindtap="playmusic" data-idx="{{idx}}" data-st="{{re.privilege.st}}">
         <view class="flexlist flex-center">
@@ -58,7 +67,7 @@
           <view class="flexlist">
             <view class="flexmain">
               <view>{{re.name}}<text wx:if="{{re.alia.length}}">（{{re.alia[0]}}）</text></view>
-              <view class="relistdes">{{re.ar[0].name}}-{{re.al.name}}</view>
+               <view class="relistdes">{{re.ar[0].name}}-{{re.al.name}}</view> 
             </view>
             <view class="flexact" wx-if="{{re.mv!=0}}">
               <view catchtap="mv" data-mvid="{{re.mv}}" class="fa_list fa_mv">
@@ -71,5 +80,5 @@
         </view>
       </navigator>
     </view>
-  </block>
+  </block> 
 </template>

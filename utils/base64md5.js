@@ -220,9 +220,12 @@ function binl2b64(binarray) {
 }
 
 function str2Arr(str) {
+  // str = 3go8&$8*3*3h0k(2)2  这是什么？
     var bytes = []
     for (var i = 0; i < str.length; i++) {
         bytes.push(str.charAt(i).charCodeAt(0))
+        // charAt是js中的方法    charCodeAt返回字符的 Unicode 编码
+        // 这里应该就是将上面的一串字符编译成数字
     }
     return bytes
 }
@@ -238,6 +241,7 @@ function arr2Str(bytes) {
 function id2Url(pic_str) {
     console.log('strg:',pic_str)
     var magic = str2Arr('3go8&$8*3*3h0k(2)2')
+    // 
     var songId = str2Arr(pic_str)
     for (var i = 0; i < songId.length; i++) {
         songId[i] = songId[i] ^ magic[i % magic.length]

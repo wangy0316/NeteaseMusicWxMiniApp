@@ -56,30 +56,41 @@ Page({
   },
   onLoad: function (options) {
     var that = this
+    console.log('pid:' + options.pid)
+    console.log('br:' + options.from)
+    // 上面两个是navigation传过来的值
     wx.request({
-      url: bsurl + 'playlist/detail',
+      url: bsurl + 'playlist/detail',  //这个路径什么都没有
       data: {
-        id: options.pid,
+        id: options.pid, 
+        // 每个点击链接跳转到这里的pid都不是同一个值，这个id号有什么用？将传递过来的值赋给id
         limit: 1000
       },
       success: function (res) {
+        console.log('pid:'+ res.data)
         var canplay = [];
-        console.log(res.data)
-        for (let i = 0; i < res.data.playlist.tracks.length; i++) {
-          if (res.data.privileges[i].st >= 0) {
-            canplay.push(res.data.playlist.tracks[i])
-          }
-        }
+        console.log('res:' + res.data.privileges[0])
+
+        // for (let i = 0; i < res.data.playlist.tracks.length; i++) {
+        //   if (res.data.privileges[i].st >= 0) {
+        //     canplay.push(res.data.playlist.tracks[i])
+        //   }
+        // }
+
         that.setData({
           list: res.data,
           canplay: canplay,
-          toplist: (options.from == 'stoplist' ? true : false),
+          // data中根本就没有canplay这个值，渲染页面也没有这个值的渲染。这样做有什么意义？将所有的canplay都删掉也可以
+          toplist: (options.from == 'stoplist' ? true : false),   //options.from是传递过来的值 toplist
           cover: id2Url.id2Url('' + (res.data.playlist.coverImgId_str || res.data.playlist.coverImgId))
+          // 上面这句是重点 res.data是服务器返回的
         });
+        // console.log(that.data.cover) //这里获取的就是图片地址
+        console.log('canplay:' + res.data.playlist.coverImgId) //这个获取的又是另外一个值，也是一段数字
         wx.setNavigationBarTitle({
           title: res.data.playlist.name
         })
-
+        // 设置title
         console.log('list:'+that.data.list)
         
       }, fail: function (res) {

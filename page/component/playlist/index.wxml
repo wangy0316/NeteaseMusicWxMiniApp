@@ -1,6 +1,7 @@
 <import src="../../../utils/playlist.wxml" />
 <import src="../../../utils/pageplay.wxml" />
-<template is="pp" data="{{music:music,playing:playing,playtype:playtype}}"/>
+ <template is="pp" data="{{music:music,playing:playing,playtype:playtype}}"/> 
+<!--上面这个模板是播放时，页面底部的播放框  -->
   <view id="plist-header">
     <view class="blurbg" style="background-image:url({{cover}})" id="plh-filterbg"></view>
     <view id="plh-main">
@@ -39,11 +40,13 @@
       </view>
     </view>
   </view>
+  <!--下面这部分是播放列表  -->
   <view class="plist-detail page_pp">
     <block wx:if="{{list.playlist.tracks.length}}">
       <view id="playall" bindtap="playall" class="flexlist flex-center">
         <view class="flexleft flexnum">
           <image src="../../../image/pl-playall.png" mode="widthFix" />
+          <!--播放图标  -->
         </view>
         <view class="flexlist">
           <text id="pa-count">播放全部 <text> (共{{list.playlist.trackCount}}首)</text>
@@ -51,8 +54,10 @@
         </view>
       </view>
       
-       <template is="playlist" data="{{list:list.playlist.tracks,privileges:list.privileges,curplay:curplay}}" />
-
+        <template is="playlist" data="{{list:list.playlist.tracks,privileges:list.privileges,curplay:curplay}}" /> 
+      <!--列表模板  -->
+      <!--这里很不明白，在playlist中有很多数据，这里只传三个数据，根本就不够用。但是还是能显示，这是如何做到的？  -->
+      <!--上面说错了，完全够用，这的privileges是歌曲信息，在模板中歌曲信息的获取就是这个。  -->
     </block>
     <block wx:if="{{!list.playlist.tracks.length}}">
       <view class="cntloading">加载中...

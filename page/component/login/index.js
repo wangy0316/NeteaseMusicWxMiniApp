@@ -30,7 +30,10 @@ Page({
     login: function () {
         var that = this;
         var url = /^0\d{2,3}\d{7,8}$|^1[34578]\d{9}$/.test(that.data.phone) ? "login/cellphone" : "login"
-        wx.showToast({
+        // 021 2623513        13。。。  一个是电话？一个手机
+        // 登陆成功就是login/cellphone  失败就是login
+        console.log('tel:' + this.data.phone +' | ' +'pwd:'+this.data.pwd)
+        wx.showToast({ 
             title: '登录中...',
             icon: 'loading'
         })
@@ -41,6 +44,7 @@ Page({
                 phone: that.data.phone,
                 password: that.data.pwd
             },
+            // complete是直接调用，不管前面是失败还是成功
             complete: function (res) {
                 console.log(res);
                 wx.hideToast();
